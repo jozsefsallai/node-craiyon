@@ -1,0 +1,46 @@
+{
+  "name": "craiyon",
+  "version": "1.0.0",
+  "description": "Craiyon (ex DALL-E Mini) API client library for Node.js",
+  "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
+  "scripts": {
+    "build": "rm -rf lib && tsc",
+    "docs": "typedoc",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
+    "prepack": "npm run build",
+    "watch": "npm run build -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jozsefsallai/node-craiyon.git"
+  },
+  "keywords": [
+    "craiyon",
+    "image generation",
+    "api client"
+  ],
+  "author": "József Sallai @jozsefsallai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jozsefsallai/node-craiyon/issues"
+  },
+  "homepage": "https://github.com/jozsefsallai/node-craiyon#readme",
+  "devDependencies": {
+    "@types/node": "^18.7.13",
+    "@typescript-eslint/eslint-plugin": "^5.34.0",
+    "@typescript-eslint/parser": "^5.34.0",
+    "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "typedoc": "^0.23.10",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
