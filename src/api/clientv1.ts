@@ -21,6 +21,7 @@ export interface CraiyonGenerateRequestOptions {
  */
 class Client {
   static GENERATE_IMAGES_URL = '/generate';
+  static VERSION = 1;
 
   private baseUrl: string;
   private maxRetries: number;

@@ -3,6 +3,17 @@ import CraiyonOutput from '../models/CraiyonOutput';
 import sleep from '../utils/sleep';
 
 /**
+ * Contains the different models Craiyon can use for its drawing.
+ * @enum
+ */
+export enum CraiyonModel {
+  None = 'none',
+  Art = 'art',
+  Drawing = 'drawing',
+  Photo = 'photo',
+}
+
+/**
  * Contains the options for a Craiyon image generation request.
  *
  * @typedef {Object} CraiyonOptions
@@ -12,6 +23,8 @@ import sleep from '../utils/sleep';
 export interface CraiyonGenerateRequestOptions {
   prompt: string;
   maxRetries?: number;
+  negative_prompt?: string;
+  model?: CraiyonModel;
 }
 
 /**
@@ -20,8 +33,9 @@ export interface CraiyonGenerateRequestOptions {
  * @classdesc An API client for Craiyon.
  */
 class Client {
-  static GENERATE_IMAGES_URL = '/draw';
-  static VERSION = 2;
+  static GENERATE_IMAGES_URL = '/v3';
+  static VERSION = 3;
+  static MODELS = CraiyonModel;
 
   private baseUrl: string;
   private maxRetries: number;
@@ -92,11 +106,20 @@ class Client {
   async generate({
     prompt,
     maxRetries,
+    negative_prompt,
+    model,
   }: CraiyonGenerateRequestOptions): Promise<CraiyonOutput> {
     const url = this.makeGenerateImagesUrl();
     const retries = maxRetries ?? this.maxRetries;
-    const data = { prompt, version: this.modelVersion, token: this.apiToken };
-
+    model = model ?? CraiyonModel.None;
+    negative_prompt = negative_prompt ?? '';
+    const data = {
+      prompt,
+      version: this.modelVersion,
+      token: this.apiToken,
+      model,
+      negative_prompt,
+    };
     try {
       const response = await axios.post(url, data, {
         headers: {
@@ -123,7 +146,12 @@ class Client {
           await sleep(10000);
         }
 
-        return this.generate({ prompt, maxRetries: retries - 1 });
+        return this.generate({
+          prompt,
+          maxRetries: retries - 1,
+          negative_prompt,
+          model,
+        });
       }
 
       throw err;

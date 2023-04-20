@@ -1,3 +1,7 @@
+import ClientV3, {
+  CraiyonGenerateRequestOptions as CraiyonGenerateRequestOptionsV3,
+  CraiyonModel,
+} from './api/clientv3';
 import ClientV2, {
   CraiyonGenerateRequestOptions as CraiyonGenerateRequestOptionsV2,
 } from './api/clientv2';
@@ -8,15 +12,16 @@ import ClientV1, {
 import CraiyonOutput from './models/CraiyonOutput';
 import CraiyonImage from './models/CraiyonImage';
 
-const Client = ClientV2;
-
 export {
-  Client,
+  ClientV3 as Client,
   ClientV1,
   ClientV2,
+  ClientV3,
   CraiyonOutput,
   CraiyonImage,
-  CraiyonGenerateRequestOptionsV2 as CraiyonGenerateRequestOptions,
+  CraiyonGenerateRequestOptionsV3 as CraiyonGenerateRequestOptions,
   CraiyonGenerateRequestOptionsV1,
   CraiyonGenerateRequestOptionsV2,
+  CraiyonGenerateRequestOptionsV3,
+  CraiyonModel,
 };
