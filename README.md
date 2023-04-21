@@ -21,7 +21,7 @@ yarn add craiyon
 ```js
 const { Client } = require('craiyon');
 
-const craiyon = new Client();
+const craiyon = new Client().withApiToken('your_api_token');
 const result = await craiyon.generate({
   prompt: 'Painting of a dachshund drinking water in the style of Van Gogh',
 });
@@ -50,6 +50,19 @@ const result = await craiyon.generate({
   maxRetries: 5,
 });
 ```
+
+## Older Versions
+
+The package contains API clients for older versions of the Craiyon API. You can
+use them by importing the corresponding `Client` class:
+
+```js
+const { ClientV2 } = require('craiyon'); // for v2
+const { ClientV1 } = require('craiyon'); // for v1
+```
+
+The methods are more or less the same as in the latest client. Check the library
+[documentation][docs-url] for more information.
 
 ## Notice
 
