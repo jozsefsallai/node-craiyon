@@ -29,7 +29,7 @@
 <a href="#basic-usage" id="basic-usage" style="color: inherit; text-decoration: none;">
   <h2>Basic Usage</h2>
 </a>
-<pre><code class="language-js"><span class="hl-2">const</span><span class="hl-1"> { </span><span class="hl-3">Client</span><span class="hl-1"> } = </span><span class="hl-4">require</span><span class="hl-1">(</span><span class="hl-5">&#39;craiyon&#39;</span><span class="hl-1">);</span><br/><br/><span class="hl-2">const</span><span class="hl-1"> </span><span class="hl-3">craiyon</span><span class="hl-1"> = </span><span class="hl-2">new</span><span class="hl-1"> </span><span class="hl-4">Client</span><span class="hl-1">();</span><br/><span class="hl-2">const</span><span class="hl-1"> </span><span class="hl-3">result</span><span class="hl-1"> = </span><span class="hl-6">await</span><span class="hl-1"> </span><span class="hl-0">craiyon</span><span class="hl-1">.</span><span class="hl-4">generate</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-0">prompt:</span><span class="hl-1"> </span><span class="hl-5">&#39;Painting of a dachshund drinking water in the style of Van Gogh&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">});</span>
+<pre><code class="language-js"><span class="hl-2">const</span><span class="hl-1"> { </span><span class="hl-3">Client</span><span class="hl-1"> } = </span><span class="hl-4">require</span><span class="hl-1">(</span><span class="hl-5">&#39;craiyon&#39;</span><span class="hl-1">);</span><br/><br/><span class="hl-2">const</span><span class="hl-1"> </span><span class="hl-3">craiyon</span><span class="hl-1"> = </span><span class="hl-2">new</span><span class="hl-1"> </span><span class="hl-4">Client</span><span class="hl-1">().</span><span class="hl-4">withApiToken</span><span class="hl-1">(</span><span class="hl-5">&#39;your_api_token&#39;</span><span class="hl-1">);</span><br/><span class="hl-2">const</span><span class="hl-1"> </span><span class="hl-3">result</span><span class="hl-1"> = </span><span class="hl-6">await</span><span class="hl-1"> </span><span class="hl-0">craiyon</span><span class="hl-1">.</span><span class="hl-4">generate</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-0">prompt:</span><span class="hl-1"> </span><span class="hl-5">&#39;Painting of a dachshund drinking water in the style of Van Gogh&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">});</span>
 </code></pre>
 <p>You can then use any of the methods available in <code>result</code> to get the generated
 images in any way you want.</p>
@@ -46,6 +46,16 @@ number of maximum retries (for all generations):</p>
 <p>or by setting a custom number of retries for a specific generation:</p>
 <pre><code class="language-js"><span class="hl-2">const</span><span class="hl-1"> </span><span class="hl-3">result</span><span class="hl-1"> = </span><span class="hl-6">await</span><span class="hl-1"> </span><span class="hl-0">craiyon</span><span class="hl-1">.</span><span class="hl-4">generate</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-0">prompt:</span><span class="hl-1"> </span><span class="hl-5">&#39;Painting of a dachshund drinking water in the style of Van Gogh&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-0">maxRetries:</span><span class="hl-1"> </span><span class="hl-7">5</span><span class="hl-1">,</span><br/><span class="hl-1">});</span>
 </code></pre>
+
+<a href="#older-versions" id="older-versions" style="color: inherit; text-decoration: none;">
+  <h2>Older Versions</h2>
+</a>
+<p>The package contains API clients for older versions of the Craiyon API. You can
+use them by importing the corresponding <code>Client</code> class:</p>
+<pre><code class="language-js"><span class="hl-2">const</span><span class="hl-1"> { </span><span class="hl-3">ClientV2</span><span class="hl-1"> } = </span><span class="hl-4">require</span><span class="hl-1">(</span><span class="hl-5">&#39;craiyon&#39;</span><span class="hl-1">); </span><span class="hl-8">// for v2</span><br/><span class="hl-2">const</span><span class="hl-1"> { </span><span class="hl-3">ClientV1</span><span class="hl-1"> } = </span><span class="hl-4">require</span><span class="hl-1">(</span><span class="hl-5">&#39;craiyon&#39;</span><span class="hl-1">); </span><span class="hl-8">// for v1</span>
+</code></pre>
+<p>The methods are more or less the same as in the latest client. Check the library
+<a href="https://jozsefsallai.github.io/node-craiyon/">documentation</a> for more information.</p>
 
 <a href="#notice" id="notice" style="color: inherit; text-decoration: none;">
   <h2>Notice</h2>
