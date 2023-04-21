@@ -20,20 +20,25 @@ export interface CraiyonGenerateRequestOptions {
  * @classdesc An API client for Craiyon.
  */
 class Client {
-  static GENERATE_IMAGES_URL = '/generate';
+  static GENERATE_IMAGES_URL = '/draw';
+  static VERSION = 2;
 
   private baseUrl: string;
   private maxRetries: number;
+  private apiToken?: string;
+  private modelVersion: string;
 
   constructor() {
-    this.baseUrl = 'https://backend.craiyon.com';
+    this.baseUrl = 'https://api.craiyon.com';
     this.maxRetries = 3;
+    this.apiToken = undefined;
+    this.modelVersion = '35s5hfwn9n78gb06';
   }
 
   /**
    * A builder function that sets the base URL of the Craiyon backend instance.
    *
-   * @param baseUrl The base URL to use. Must not include the `/generate`
+   * @param baseUrl The base URL to use. Must not include the `/draw`
    *                endpoint.
    * @returns {CraiyonClient} The modified client instance.
    */
@@ -54,6 +59,28 @@ class Client {
   }
 
   /**
+   * A builder function that sets the model version.
+   *
+   * @param modelVersion The craiyon model to use.
+   * @returns {CraiyonClient} The modified client instance.
+   */
+  withModelVersion(modelVersion: string): Client {
+    this.modelVersion = modelVersion;
+    return this;
+  }
+
+  /**
+   * A builder function that sets the model version.
+   *
+   * @param modelVersion The craiyon model to use.
+   * @returns {CraiyonClient} The modified client instance.
+   */
+  withApiToken(apiToken: string): Client {
+    this.apiToken = apiToken;
+    return this;
+  }
+
+  /**
    * Generates an image for the given prompt. The retries will be throttled by
    * 10 seconds if an HTTP Too Many Requests error is returned.
    *
@@ -68,20 +95,27 @@ class Client {
   }: CraiyonGenerateRequestOptions): Promise<CraiyonOutput> {
     const url = this.makeGenerateImagesUrl();
     const retries = maxRetries ?? this.maxRetries;
+    const data = { prompt, version: this.modelVersion, token: this.apiToken };
 
     try {
-      const response = await axios.post(
-        url,
-        { prompt },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
+      const response = await axios.post(url, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
+      });
+      const image_responses = await Promise.all(
+        response.data.images.map(async (item: string) => {
+          return await axios.get(`https://img.craiyon.com/${item}`, {
+            responseType: 'arraybuffer',
+          });
+        }),
       );
-
-      const output = CraiyonOutput.fromJSON(response.data);
+      const output = CraiyonOutput.fromJSON({
+        images: image_responses.map((r: any) => {
+          return Buffer.from(r.data, 'binary').toString('base64');
+        }),
+      });
       return output;
     } catch (err: any) {
       if (retries > 0) {
